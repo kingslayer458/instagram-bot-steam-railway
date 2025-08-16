@@ -107,23 +107,54 @@ class EnhancedSteamInstagramBot {
     }
 
     // Load posting history
-    async loadPostedHistory() {
+    // Replace loadPostedHistory() method
+async loadPostedHistory() {
+    if (process.env.DATABASE_URL) {
+        // Use PostgreSQL in production
+        const { Client } = await import('pg');
+        const client = new Client({ connectionString: process.env.DATABASE_URL });
+        await client.connect();
+        
+        // Create table if needed
+        await client.query(`
+            CREATE TABLE IF NOT EXISTS posted_screenshots (
+                screenshot_url VARCHAR(500) PRIMARY KEY,
+                posted_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
+            )
+        `);
+        
+        const result = await client.query('SELECT screenshot_url FROM posted_screenshots');
+        this.postedScreenshots = new Set(result.rows.map(row => row.screenshot_url));
+        await client.end();
+    } else {
+        // Use file locally
         try {
             const data = await fs.readFile('./posted_history.json', 'utf8');
-            const history = JSON.parse(data);
-            this.postedScreenshots = new Set(history);
-            console.log(`📚 Loaded ${this.postedScreenshots.size} previously posted screenshots`);
+            this.postedScreenshots = new Set(JSON.parse(data));
         } catch {
-            console.log('🆕 No previous posting history found, starting fresh');
+            console.log('🆕 Starting fresh');
         }
     }
+}
 
     // Save posting history
     async savePostedHistory() {
-        try {
+        if (process.env.DATABASE_URL) {
+            // Save to PostgreSQL
+            const { Client } = await import('pg');
+            const client = new Client({ connectionString: process.env.DATABASE_URL });
+            await client.connect();
+            
+            for (const url of this.postedScreenshots) {
+                await client.query(
+                    'INSERT INTO posted_screenshots (screenshot_url) VALUES ($1) ON CONFLICT DO NOTHING',
+                    [url]
+                );
+            }
+            await client.end();
+        } else {
+            // Save to file locally
             await fs.writeFile('./posted_history.json', JSON.stringify([...this.postedScreenshots], null, 2));
-        } catch (err) {
-            console.error('❌ Error saving history:', err);
         }
     }
 

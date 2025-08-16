@@ -18,7 +18,8 @@
     "form-data": "^4.0.4",
     "node-cron": "^3.0.3",
     "node-fetch": "^3.3.2",
-    "sharp": "^0.34.3"
+    "sharp": "^0.34.3",
+    "pg": "^8.11.3"
   },
   "devDependencies": {
     "nodemon": "^3.0.1"
