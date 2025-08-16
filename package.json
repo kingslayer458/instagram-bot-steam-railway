@@ -1,0 +1,39 @@
+{
+  "name": "steam-instagram-bot",
+  "version": "1.0.0",
+  "description": "Automated Instagram bot that posts high-quality Steam screenshots",
+  "main": "instagram-steam-fetcher.js",
+  "type": "module",
+  "scripts": {
+    "start": "node instagram-steam-fetcher.js",
+    "post": "node instagram-steam-fetcher.js post",
+    "test": "node instagram-steam-fetcher.js test",
+    "status": "node instagram-steam-fetcher.js status",
+    "clear-cache": "node instagram-steam-fetcher.js clear-cache",
+    "reset-history": "node instagram-steam-fetcher.js reset-history",
+    "dev": "node --watch instagram-steam-fetcher.js"
+  },
+  "dependencies": {
+    "dotenv": "^16.3.1",
+    "form-data": "^4.0.4",
+    "node-cron": "^3.0.3",
+    "node-fetch": "^3.3.2",
+    "sharp": "^0.34.3"
+  },
+  "devDependencies": {
+    "nodemon": "^3.0.1"
+  },
+  "keywords": [
+    "instagram",
+    "steam",
+    "bot",
+    "automation",
+    "screenshots",
+    "gaming"
+  ],
+  "author": "Your Name",
+  "license": "MIT",
+  "engines": {
+    "node": ">=14.0.0"
+  }
+}

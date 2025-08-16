@@ -1,0 +1,20 @@
+# Node modules
+node_modules/
+
+# Environment variables
+.env
+token_check_req.txt
+insta_check_bussiness.txt
+
+# Logs
+*.log
+
+# Temporary files
+*.tmp
+
+# OS-specific files
+.DS_Store
+Thumbs.db
+
+# Optional: local post history
+post_history.json
