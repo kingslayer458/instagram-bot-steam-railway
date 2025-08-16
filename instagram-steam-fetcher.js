@@ -4,9 +4,31 @@ import fs from 'fs/promises';
 import path from 'path';
 import sharp from 'sharp';
 import dotenv from 'dotenv';
+import { createServer } from 'http';
 dotenv.config();
 
 class EnhancedSteamInstagramBot {
+    setupHealthCheck() {
+        const port = process.env.PORT || 3000;
+        const server = createServer((req, res) => {
+            if (req.url === '/health') {
+                res.writeHead(200, { 'Content-Type': 'application/json' });
+                res.end(JSON.stringify({
+                    status: 'healthy',
+                    uptime: process.uptime(),
+                    timestamp: new Date().toISOString(),
+                    botStatus: this.getStatus()
+                }));
+            } else {
+                res.writeHead(404, { 'Content-Type': 'text/plain' });
+                res.end('Bot is running');
+            }
+        });
+        
+        server.listen(port, () => {
+            console.log(`🏥 Health check server running on port ${port}`);
+        });
+    }
     constructor(config) {
         this.config = {
             instagramToken: config.instagramToken,
