@@ -1,6 +1,6 @@
 // Script to check available Gemini models with your API key
 
-const GEMINI_API_KEY = 'AIzaSyCexTVkCo6yRIL2PvVvyUjwtZK_fBXALXA';
+const GEMINI_API_KEY = '';
 
 async function checkAvailableModels() {
     try {
