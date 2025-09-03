@@ -696,7 +696,7 @@ class EnhancedSteamInstagramBot {
             }
             
             // ENHANCED: Determine the maximum number of pages more accurately (FROM SERVER)
-            const screenshotsPerPage = 30;
+            const screenshotsPerPage = 5;
             let maxPage = Math.ceil(totalScreenshots / screenshotsPerPage) + 10; // Add more safety margin
             
             if (maxPage < 10) maxPage = 10; // Always check at least 10 pages to be safe
